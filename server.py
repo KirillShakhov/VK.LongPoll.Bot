@@ -1,13 +1,9 @@
 import random
-
-import numpy
 import vk_api
 from vk_api.bot_longpoll import VkBotLongPoll
 from vk_api.bot_longpoll import VkBotEventType
 from vk_api import VkUpload
 
-
-# Перечисления команд, режимов
 
 class Server:
     def __init__(self, api_token, group_id, server_name: str = 'Empty'):
@@ -33,10 +29,10 @@ class Server:
         '''
 
         result = self.vk_api.messages.send(peer_id=send_id,
-                                               message=message,
-                                               random_id=random.randint(0, 2048),
-                                               keyboard=open('keyboards/{}.json'.format(keyboards), 'r',
-                                                             encoding='UTF-8').read())
+                                           message=message,
+                                           random_id=random.randint(0, 2048),
+                                           keyboard=open('keyboards/{}.json'.format(keyboards), 'r',
+                                                         encoding='UTF-8').read())
         return result
 
     def Comander(self, event):
@@ -55,23 +51,30 @@ class Server:
             dog = Dog()
             self.send_msg(from_id, dog.randomWord())
 
-
     def start(self):
         for event in self.long_poll.listen():
             if event.type == VkBotEventType.MESSAGE_NEW:
                 self.Comander(event)
 
+
 class Dog:
-    words = [
-        "Ауф",
-        "Гав!",
-        "ГAв!",
-        "Гав Гав",
-        "РРар",
-        "Ух ах ух ах",
-    ]
+    words = {
+        "Ауф": 1,
+        "Гав!": 2,
+        "ГAв!": 2,
+        "Гав Гав": 2,
+        "РРар": 1,
+        "Ух ах ух ах": 1,
+    }
+
     def randomWord(self):
-        single_random_choice = numpy.random.choice(self.words, size=1)
-        return single_random_choice[0]
+        return self.weighted_random_choice(self.words)
 
-
+    def weighted_random_choice(self, choices):
+        max = sum(choices.values())
+        pick = random.uniform(0, max)
+        current = 0
+        for key, value in choices.items():
+            current += value
+            if current > pick:
+                return key
