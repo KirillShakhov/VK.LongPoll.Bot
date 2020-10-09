@@ -1,5 +1,5 @@
 from server import Server
 
-#ServerOrthodoxLamp = Server('KEY', GROUP_ID, "NAME")
-ServerOrthodoxLamp = Server('7349d6b7788144b7577e465bd5dc919ea6a1f580349af1a4309717f84074ea5432382894d5da8d4763531', 185976227, "Orthodox_lamp2")
-ServerOrthodoxLamp.start()
+#corgi_smile = Server('KEY', GROUP_ID, "NAME")
+corgi_smile = Server('b04d5cd927d757a13d67f89e10ffd8019f5de70959665e459e879513c1af1898ff838312805c4011f5f48', 199351474, "corgi_smile")
+corgi_smile.start()
